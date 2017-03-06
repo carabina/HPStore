@@ -11,6 +11,7 @@
 		AF8435201E6DBCB300965942 /* SimpleStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF84351F1E6DBCB300965942 /* SimpleStoreTests.swift */; };
 		AF8435221E6DBCB300965942 /* SimpleStore.h in Headers */ = {isa = PBXBuildFile; fileRef = AF8435141E6DBCB300965942 /* SimpleStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AF84352E1E6DBDB900965942 /* SimpleStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF84352D1E6DBDB900965942 /* SimpleStore.swift */; };
+		AF9589E01E6DBFAC00E1FCB0 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF9589DF1E6DBFAC00E1FCB0 /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +32,7 @@
 		AF84351F1E6DBCB300965942 /* SimpleStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleStoreTests.swift; sourceTree = "<group>"; };
 		AF8435211E6DBCB300965942 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF84352D1E6DBDB900965942 /* SimpleStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleStore.swift; sourceTree = "<group>"; };
+		AF9589DF1E6DBFAC00E1FCB0 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF9589E01E6DBFAC00E1FCB0 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +61,7 @@
 				AF8435131E6DBCB300965942 /* SimpleStore */,
 				AF84351E1E6DBCB300965942 /* SimpleStoreTests */,
 				AF8435121E6DBCB300965942 /* Products */,
+				AF9589DE1E6DBFAC00E1FCB0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -87,6 +91,14 @@
 				AF8435211E6DBCB300965942 /* Info.plist */,
 			);
 			path = SimpleStoreTests;
+			sourceTree = "<group>";
+		};
+		AF9589DE1E6DBFAC00E1FCB0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AF9589DF1E6DBFAC00E1FCB0 /* StoreKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -336,6 +348,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = SimpleStore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.henrikpanhans.SimpleStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -357,6 +370,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = SimpleStore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.henrikpanhans.SimpleStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
