@@ -13,7 +13,7 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
     public var productIDs = [String]()
     public var products = [String : SKProduct]()
     public var canMakePayments = true
-    weak var delegate: SimpleStoreDelegate?
+    public var delegate: SimpleStoreDelegate?
     
     public init(with IDs: [String]) {
         super.init()
@@ -72,19 +72,16 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
         for transaction in transactions {
             switch transaction.transactionState {
             case .purchased:
-                print("purchase success")
                 delegate?.purchaseDidSucceed(with: transaction.payment.productIdentifier)
                 SKPaymentQueue.default().finishTransaction(transaction)
                 break
             case .restored:
-                print("purchase restored")
                 delegate?.purchaseDidRestore(with: transaction.payment.productIdentifier)
                 SKPaymentQueue.default().finishTransaction(transaction)
                 break
             case .deferred:
                 print("purchase deferred")
             case .failed:
-                print("purchase failed")
                 delegate?.purchaseDidFail(with: transaction.payment.productIdentifier)
                 SKPaymentQueue.default().finishTransaction(transaction)
                 break
