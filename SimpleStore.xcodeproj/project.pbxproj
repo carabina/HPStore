@@ -10,6 +10,7 @@
 		AF84351B1E6DBCB300965942 /* SimpleStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF8435111E6DBCB300965942 /* SimpleStore.framework */; };
 		AF8435201E6DBCB300965942 /* SimpleStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF84351F1E6DBCB300965942 /* SimpleStoreTests.swift */; };
 		AF8435221E6DBCB300965942 /* SimpleStore.h in Headers */ = {isa = PBXBuildFile; fileRef = AF8435141E6DBCB300965942 /* SimpleStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AF84352C1E6DBCC200965942 /* SimpleStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF84352B1E6DBCC200965942 /* SimpleStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		AF84351A1E6DBCB300965942 /* SimpleStoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleStoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF84351F1E6DBCB300965942 /* SimpleStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleStoreTests.swift; sourceTree = "<group>"; };
 		AF8435211E6DBCB300965942 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF84352B1E6DBCC200965942 /* SimpleStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleStore.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 		AF8435131E6DBCB300965942 /* SimpleStore */ = {
 			isa = PBXGroup;
 			children = (
+				AF84352B1E6DBCC200965942 /* SimpleStore.swift */,
 				AF8435141E6DBCB300965942 /* SimpleStore.h */,
 				AF8435151E6DBCB300965942 /* Info.plist */,
 			);
@@ -149,6 +152,7 @@
 					AF8435101E6DBCB300965942 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = FMYBNSCQ2F;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 					AF8435191E6DBCB300965942 = {
@@ -198,6 +202,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF84352C1E6DBCC200965942 /* SimpleStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,6 +327,7 @@
 		AF8435261E6DBCB300965942 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FMYBNSCQ2F;
@@ -334,6 +340,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.henrikpanhans.SimpleStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -341,6 +348,7 @@
 		AF8435271E6DBCB300965942 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FMYBNSCQ2F;
@@ -360,6 +368,7 @@
 		AF8435291E6DBCB300965942 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = FMYBNSCQ2F;
 				INFOPLIST_FILE = SimpleStoreTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -372,6 +381,7 @@
 		AF84352A1E6DBCB300965942 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = FMYBNSCQ2F;
 				INFOPLIST_FILE = SimpleStoreTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
