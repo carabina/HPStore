@@ -9,6 +9,8 @@ To install simply add `pod 'SimpleStore'` to your Podfile
 import SimpleStore
 
 var store = SimpleStore(with: [String])
+
+store.delegate = self //see delegate methods below
 ```
 
 **The following functions are available:**
