@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SimpleStore"
-  s.version      = "0.1.0"
+  s.version      = "1.0.0"
   s.summary      = "An lightweight class to perform in-app purchases"
 
   s.homepage     = "https://henrikpanhans.de"
@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = "8.0"
 
-  s.source       = { :git => 'https://github.com/Fri3ndlyGerman/SimpleStore.git', :tag => "0.1.0" }
+  s.source       = { :git => 'https://github.com/Fri3ndlyGerman/SimpleStore.git', :tag => "1.0.0" }
 
   s.source_files = "SimpleStore", "SimpleStore/*.{plist,h,swift}"
 
