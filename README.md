@@ -37,3 +37,5 @@ func purchaseDidRestore(with id: String) {}
     
 func purchaseDidFail(with id: String) {}
 ```
+
+If you have any suggestion or improvements, feel free to contribute :)
