@@ -53,7 +53,7 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
             productRequest.delegate = self
             productRequest.start()
         } else {
-            print("Cannot perform In App Purchases.")
+            print("Cannot perform In App Purchases")
         }
     }
     
@@ -64,7 +64,7 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
                 products[product.productIdentifier] = product
             }
         } else {
-            print("There are no products.")
+            print("There are no products")
         }
     }
     
