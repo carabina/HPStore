@@ -1,7 +1,7 @@
 # SimpleStore
 A lightweight wrapper class to perform in-app purchases.
 
-To install simply add `pod 'SimpleStore'` to your Podfile
+To install simply add `pod 'SimpleStore'` to your Podfile or `github "SwiftyJSON/SwiftyJSON"` to your Cartfile
 
 **Usage:**
 
