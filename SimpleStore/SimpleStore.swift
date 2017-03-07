@@ -22,6 +22,8 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
         
         productIDs = IDs
         canMakePayments = SKPaymentQueue.canMakePayments()
+        
+        requestProductInfo(withIDs: IDs)
     }
     
     
@@ -31,7 +33,7 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
     
     
     public func restoreTransactions() {
-        if SKPaymentQueue.canMakePayments() {
+        if canMakePayments {
             SKPaymentQueue.default().restoreCompletedTransactions()
         }
     }
@@ -45,7 +47,7 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
     }
     
     public func requestProductInfo(withIDs: [String]) {
-        if SKPaymentQueue.canMakePayments() {
+        if canMakePayments {
             let productIdentifiers = NSSet(array: withIDs)
             let productRequest = SKProductsRequest(productIdentifiers: productIdentifiers as! Set<String>)
             productRequest.delegate = self
@@ -72,17 +74,17 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
         for transaction in transactions {
             switch transaction.transactionState {
             case .purchased:
-                delegate?.purchaseDidSucceed(with: transaction.payment.productIdentifier)
+                delegate?.purchaseDidSucceed(with: transaction.payment.productIdentifier, transaction: transaction)
                 SKPaymentQueue.default().finishTransaction(transaction)
                 break
             case .restored:
-                delegate?.purchaseDidRestore(with: transaction.payment.productIdentifier)
+                delegate?.purchaseDidRestore(with: transaction.payment.productIdentifier, transaction: transaction)
                 SKPaymentQueue.default().finishTransaction(transaction)
                 break
             case .deferred:
                 print("purchase deferred")
             case .failed:
-                delegate?.purchaseDidFail(with: transaction.payment.productIdentifier)
+                delegate?.purchaseDidFail(with: transaction.payment.productIdentifier, transaction: transaction)
                 SKPaymentQueue.default().finishTransaction(transaction)
                 break
             default:
@@ -95,10 +97,10 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
 
 public protocol SimpleStoreDelegate: class {
     
-    func purchaseDidSucceed(with id: String)
+    func purchaseDidSucceed(with id: String, transaction: SKPaymentTransaction)
     
-    func purchaseDidFail(with id: String)
+    func purchaseDidFail(with id: String, transaction: SKPaymentTransaction)
     
-    func purchaseDidRestore(with id: String)
+    func purchaseDidRestore(with id: String, transaction: SKPaymentTransaction)
 }
 
