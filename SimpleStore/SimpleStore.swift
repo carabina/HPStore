@@ -33,9 +33,8 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
     
     
     public func restoreTransactions() {
-        if canMakePayments {
-            SKPaymentQueue.default().restoreCompletedTransactions()
-        }
+        SKPaymentQueue.default().add(self)
+        SKPaymentQueue.default().restoreCompletedTransactions()
     }
     
     
@@ -76,22 +75,29 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
             case .purchased:
                 delegate?.purchaseDidSucceed(with: transaction.payment.productIdentifier, transaction: transaction)
                 SKPaymentQueue.default().finishTransaction(transaction)
-                break
             case .restored:
                 print("purchase restored")
-                delegate?.purchaseDidRestore(with: transaction.payment.productIdentifier, transaction: transaction)
                 SKPaymentQueue.default().finishTransaction(transaction)
-                break
             case .deferred:
                 print("purchase deferred")
             case .failed:
                 delegate?.purchaseDidFail(with: transaction.payment.productIdentifier, transaction: transaction)
                 SKPaymentQueue.default().finishTransaction(transaction)
-                break
             default:
-                print(transaction.transactionState.hashValue)
+                print(transaction.transactionState)
             }
         }
+    }
+    
+    public func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
+        if let payment = queue.transactions.first {
+            delegate?.purchaseDidRestore(with: payment.transactionIdentifier!, transaction: payment)
+        }
+    }
+    
+    //If an error occurs, the code will go to this function
+    public func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
+        print("ERROR: \(error.localizedDescription)")
     }
 }
 
