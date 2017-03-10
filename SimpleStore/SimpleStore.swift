@@ -78,6 +78,7 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
                 SKPaymentQueue.default().finishTransaction(transaction)
                 break
             case .restored:
+                print("purchase restored")
                 delegate?.purchaseDidRestore(with: transaction.payment.productIdentifier, transaction: transaction)
                 SKPaymentQueue.default().finishTransaction(transaction)
                 break
