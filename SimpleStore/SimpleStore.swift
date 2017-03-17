@@ -63,7 +63,7 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
                 products[product.productIdentifier] = product
             }
         } else {
-            print("There are no products")
+            print("No products found")
         }
     }
     
@@ -76,15 +76,12 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
                 delegate?.purchaseDidSucceed(with: transaction.payment.productIdentifier, transaction: transaction)
                 SKPaymentQueue.default().finishTransaction(transaction)
             case .restored:
-                print("purchase restored")
                 SKPaymentQueue.default().finishTransaction(transaction)
-            case .deferred:
-                print("purchase deferred")
             case .failed:
                 delegate?.purchaseDidFail(with: transaction.payment.productIdentifier, transaction: transaction)
                 SKPaymentQueue.default().finishTransaction(transaction)
             default:
-                print(transaction.transactionState)
+                print("processing")
             }
         }
     }
@@ -97,7 +94,7 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
     
     //If an error occurs, the code will go to this function
     public func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
-        print("ERROR: \(error.localizedDescription)")
+        delegate?.restoreDidFail(with: error)
     }
 }
 
@@ -109,5 +106,7 @@ public protocol SimpleStoreDelegate: class {
     func purchaseDidFail(with id: String, transaction: SKPaymentTransaction)
     
     func purchaseDidRestore(with id: String, transaction: SKPaymentTransaction)
+    
+    func restoreDidFail(with error: Error)
 }
 
