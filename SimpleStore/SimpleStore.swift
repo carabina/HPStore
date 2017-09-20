@@ -23,7 +23,7 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
         productIDs = identifiers
         canMakePayments = SKPaymentQueue.canMakePayments()
         
-        requestProductInfo(withIDs: identifiers)
+        requestProductInfo(with: identifiers)
     }
     
     
@@ -39,15 +39,15 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
     
     
     public func buyProduct(with id: String) {
-        if products[withID] != nil && SKPaymentQueue.canMakePayments() {
-            let payment = SKPayment(product: products[withID]! as SKProduct)
+        if products[id] != nil && SKPaymentQueue.canMakePayments() {
+            let payment = SKPayment(product: products[id]! as SKProduct)
             SKPaymentQueue.default().add(payment)
         }
     }
     
-    public func requestProductInfo(with id: [String]) {
+    public func requestProductInfo(with ids: [String]) {
         if canMakePayments {
-            let productIdentifiers = NSSet(array: withIDs)
+            let productIdentifiers = NSSet(array: ids)
             let productRequest = SKProductsRequest(productIdentifiers: productIdentifiers as! Set<String>)
             productRequest.delegate = self
             productRequest.start()
