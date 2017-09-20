@@ -38,14 +38,14 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
     }
     
     
-    public func buyProduct(withID: String) {
+    public func buyProduct(with id: String) {
         if products[withID] != nil && SKPaymentQueue.canMakePayments() {
             let payment = SKPayment(product: products[withID]! as SKProduct)
             SKPaymentQueue.default().add(payment)
         }
     }
     
-    public func requestProductInfo(withIDs: [String]) {
+    public func requestProductInfo(with id: [String]) {
         if canMakePayments {
             let productIdentifiers = NSSet(array: withIDs)
             let productRequest = SKProductsRequest(productIdentifiers: productIdentifiers as! Set<String>)
