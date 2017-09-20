@@ -15,15 +15,15 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
     public var canMakePayments = true
     public var delegate: SimpleStoreDelegate?
     
-    public init(with IDs: [String]) {
+    public init(with identifiers: [String]) {
         super.init()
         
         SKPaymentQueue.default().add(self)
         
-        productIDs = IDs
+        productIDs = identifiers
         canMakePayments = SKPaymentQueue.canMakePayments()
         
-        requestProductInfo(withIDs: IDs)
+        requestProductInfo(withIDs: identifiers)
     }
     
     
