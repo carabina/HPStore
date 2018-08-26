@@ -40,6 +40,8 @@ public class HPStore: NSObject, SKPaymentTransactionObserver, SKProductsRequestD
         if products[id] != nil && SKPaymentQueue.canMakePayments() {
             let payment = SKPayment(product: products[id]! as SKProduct)
             SKPaymentQueue.default().add(payment)
+        } else {
+            print("HPStore: No product found or device can't make in-app purchases")
         }
     }
     
