@@ -10,7 +10,7 @@ import StoreKit
 
 public class HPStore: NSObject, SKPaymentTransactionObserver, SKProductsRequestDelegate {
     
-    public var productIDs = [String]()
+    public var identifiers = [String]()
     public var products = [String:SKProduct]()
     public var delegate: HPStoreDelegate?
     
@@ -19,10 +19,8 @@ public class HPStore: NSObject, SKPaymentTransactionObserver, SKProductsRequestD
         super.init()
         
         SKPaymentQueue.default().add(self)
-        
-        self.productIDs = identifiers
-        
-        requestProductInfo(with: identifiers)
+        self.identifiers = identifiers
+        self.requestProductInfo(with: identifiers)
     }
     
     
@@ -46,6 +44,7 @@ public class HPStore: NSObject, SKPaymentTransactionObserver, SKProductsRequestD
     
     
     public func requestProductInfo(with ids: [String]) {
+        print("HPStore: Requesting Product Info")
         if self.canMakePayments() {
             let productIdentifiers = NSSet(array: ids)
             let productRequest = SKProductsRequest(productIdentifiers: productIdentifiers as! Set<String>)
@@ -58,11 +57,13 @@ public class HPStore: NSObject, SKPaymentTransactionObserver, SKProductsRequestD
     
     
     public func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+        print("HPStore: Did receive Response from Apple")
         if response.products.count != 0 {
+            self.products.removeAll()
             for product in response.products {
-                print(product.price)
                 products[product.productIdentifier] = product
             }
+            print("HPStore: Loaded \(products.count) products")
         } else {
             print("HPStore: No products found")
         }
@@ -70,19 +71,19 @@ public class HPStore: NSObject, SKPaymentTransactionObserver, SKProductsRequestD
     
     
     public func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        print("HPStore: Received Payment Transaction Response from Apple");
-        
+        print("HPStore: Received Payment Transaction Response from Apple")
         delegate?.paymentQueue(queue, updatedTransactions: transactions)
     }
     
     
     public func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
+        print("HPStore: Payment Qeue finished restoring transactions")
         delegate?.paymentQueueRestoreCompletedTransactionsFinished(queue)
     }
     
     
-    //If an error occurs, the code will go to this function
     public func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
+        print("HPStore: Payment Qeue failed to restore transactions")
         delegate?.paymentQueue(queue, restoreCompletedTransactionsFailedWithError: error)
     }
 }
