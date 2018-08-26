@@ -8,27 +8,26 @@
 
 import StoreKit
 
-public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequestDelegate {
+public class HPStore: NSObject, SKPaymentTransactionObserver, SKProductsRequestDelegate {
     
     public var productIDs = [String]()
-    public var products = [String : SKProduct]()
-    public var canMakePayments = true
-    public var delegate: SimpleStoreDelegate?
+    public var products = [String:SKProduct]()
+    public var delegate: HPStoreDelegate?
+    
     
     public init(with identifiers: [String]) {
         super.init()
         
         SKPaymentQueue.default().add(self)
         
-        productIDs = identifiers
-        canMakePayments = SKPaymentQueue.canMakePayments()
+        self.productIDs = identifiers
         
         requestProductInfo(with: identifiers)
     }
     
     
-    public func checkIfPaymentPossible() {
-        canMakePayments = SKPaymentQueue.canMakePayments()
+    public func canMakePayments() -> Bool{
+        return SKPaymentQueue.canMakePayments()
     }
     
     
@@ -45,16 +44,18 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
         }
     }
     
+    
     public func requestProductInfo(with ids: [String]) {
-        if canMakePayments {
+        if self.canMakePayments() {
             let productIdentifiers = NSSet(array: ids)
             let productRequest = SKProductsRequest(productIdentifiers: productIdentifiers as! Set<String>)
             productRequest.delegate = self
             productRequest.start()
         } else {
-            print("Cannot perform In App Purchases")
+            print("HPStore: Cannot perform In App Purchases")
         }
     }
+    
     
     public func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         if response.products.count != 0 {
@@ -63,50 +64,33 @@ public class SimpleStore: NSObject, SKPaymentTransactionObserver, SKProductsRequ
                 products[product.productIdentifier] = product
             }
         } else {
-            print("No products found")
+            print("HPStore: No products found")
         }
     }
+    
     
     public func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        print("Received Payment Transaction Response from Apple");
+        print("HPStore: Received Payment Transaction Response from Apple");
         
-        for transaction in transactions {
-            switch transaction.transactionState {
-            case .purchased:
-                delegate?.purchaseDidSucceed(with: transaction.payment.productIdentifier, transaction: transaction)
-                SKPaymentQueue.default().finishTransaction(transaction)
-            case .restored:
-                SKPaymentQueue.default().finishTransaction(transaction)
-            case .failed:
-                delegate?.purchaseDidFail(with: transaction.payment.productIdentifier, transaction: transaction)
-                SKPaymentQueue.default().finishTransaction(transaction)
-            default:
-                print("processing")
-            }
-        }
+        delegate?.paymentQueue(queue, updatedTransactions: transactions)
     }
     
+    
     public func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
-        if let payment = queue.transactions.first {
-            delegate?.purchaseDidRestore(with: payment.transactionIdentifier!, transaction: payment)
-        }
+        delegate?.paymentQueueRestoreCompletedTransactionsFinished(queue)
     }
+    
     
     //If an error occurs, the code will go to this function
     public func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
-        delegate?.restoreDidFail(with: error)
+        delegate?.paymentQueue(queue, restoreCompletedTransactionsFailedWithError: error)
     }
 }
 
 
-public protocol SimpleStoreDelegate: class {
-    
-    func purchaseDidSucceed(with id: String, transaction: SKPaymentTransaction)
-    
-    func purchaseDidFail(with id: String, transaction: SKPaymentTransaction)
-    
-    func purchaseDidRestore(with id: String, transaction: SKPaymentTransaction)
-    
-    func restoreDidFail(with error: Error)
+public protocol HPStoreDelegate: class {
+    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction])
+    func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue)
+    func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error)
 }
 
