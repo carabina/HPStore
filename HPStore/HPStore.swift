@@ -10,7 +10,9 @@ import StoreKit
 
 public class HPStore: NSObject, SKPaymentTransactionObserver, SKProductsRequestDelegate {
     
-    public var identifiers = [String]()
+    public var identifiers = [String]() {
+        didSet { self.requestProductInfo(with: identifiers) }
+    }
     public var products = [String:SKProduct]()
     public var delegate: HPStoreDelegate?
     
@@ -20,7 +22,6 @@ public class HPStore: NSObject, SKPaymentTransactionObserver, SKProductsRequestD
         
         SKPaymentQueue.default().add(self)
         self.identifiers = identifiers
-        self.requestProductInfo(with: identifiers)
     }
     
     
@@ -57,6 +58,7 @@ public class HPStore: NSObject, SKPaymentTransactionObserver, SKProductsRequestD
     
     
     public func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+        self.delegate?.productsRequest(request, didReceive: response)
         print("HPStore: Did receive Response from Apple")
         if response.products.count != 0 {
             self.products.removeAll()
@@ -72,24 +74,25 @@ public class HPStore: NSObject, SKPaymentTransactionObserver, SKProductsRequestD
     
     public func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         print("HPStore: Received Payment Transaction Response from Apple")
-        delegate?.paymentQueue(queue, updatedTransactions: transactions)
+        self.delegate?.paymentQueue(queue, updatedTransactions: transactions)
     }
     
     
     public func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
         print("HPStore: Payment Qeue finished restoring transactions")
-        delegate?.paymentQueueRestoreCompletedTransactionsFinished(queue)
+        self.delegate?.paymentQueueRestoreCompletedTransactionsFinished(queue)
     }
     
     
     public func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
         print("HPStore: Payment Qeue failed to restore transactions")
-        delegate?.paymentQueue(queue, restoreCompletedTransactionsFailedWithError: error)
+        self.delegate?.paymentQueue(queue, restoreCompletedTransactionsFailedWithError: error)
     }
 }
 
 
 public protocol HPStoreDelegate: class {
+    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse)
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction])
     func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue)
     func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error)
