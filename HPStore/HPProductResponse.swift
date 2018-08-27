@@ -6,4 +6,15 @@
 //  Copyright © 2018 Henrik Panhans. All rights reserved.
 //
 
-import Foundation
+import StoreKit
+
+
+public class HPProductResponse {
+    public var products = [SKProduct]()
+    public var invalidProductIdentifiers = [String]()
+    
+    public init(_ response: SKProductsResponse) {
+        self.products = response.products
+        self.invalidProductIdentifiers = response.invalidProductIdentifiers
+    }
+}
