@@ -7,16 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5539A60C462B1A76CE8540B6 /* Pods_HPStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD85E1EE37F7F7927C4795DA /* Pods_HPStore.framework */; };
 		C3F645202132D71E00B7E664 /* HPStore.h in Headers */ = {isa = PBXBuildFile; fileRef = C3F6451E2132D71E00B7E664 /* HPStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C3F645242132D72700B7E664 /* HPStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F645122132D6F800B7E664 /* HPStore.swift */; };
+		C3FAC5DD213412B600296441 /* HPProductResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FAC5DC213412B600296441 /* HPProductResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		AF9589DF1E6DBFAC00E1FCB0 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		BD85E1EE37F7F7927C4795DA /* Pods_HPStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HPStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3F645122132D6F800B7E664 /* HPStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HPStore.swift; sourceTree = "<group>"; };
 		C3F6451C2132D71E00B7E664 /* HPStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HPStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3F6451E2132D71E00B7E664 /* HPStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPStore.h; sourceTree = "<group>"; };
 		C3F6451F2132D71E00B7E664 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C3FAC5DC213412B600296441 /* HPProductResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPProductResponse.swift; sourceTree = "<group>"; };
+		D07BE99F8607CCBF53536BBD /* Pods-HPStore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HPStore.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HPStore/Pods-HPStore.debug.xcconfig"; sourceTree = "<group>"; };
+		E98CC06E855D332CEF1DDE0E /* Pods-HPStore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HPStore.release.xcconfig"; path = "Pods/Target Support Files/Pods-HPStore/Pods-HPStore.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -24,18 +30,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5539A60C462B1A76CE8540B6 /* Pods_HPStore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		93FBB6477545603CFD12BEFE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D07BE99F8607CCBF53536BBD /* Pods-HPStore.debug.xcconfig */,
+				E98CC06E855D332CEF1DDE0E /* Pods-HPStore.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		AF8435071E6DBCB300965942 = {
 			isa = PBXGroup;
 			children = (
 				C3F6451D2132D71E00B7E664 /* HPStore */,
 				AF8435121E6DBCB300965942 /* Products */,
 				AF9589DE1E6DBFAC00E1FCB0 /* Frameworks */,
+				93FBB6477545603CFD12BEFE /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -51,6 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				AF9589DF1E6DBFAC00E1FCB0 /* StoreKit.framework */,
+				BD85E1EE37F7F7927C4795DA /* Pods_HPStore.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -59,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				C3F645122132D6F800B7E664 /* HPStore.swift */,
+				C3FAC5DC213412B600296441 /* HPProductResponse.swift */,
 				C3F6451E2132D71E00B7E664 /* HPStore.h */,
 				C3F6451F2132D71E00B7E664 /* Info.plist */,
 			);
@@ -83,6 +102,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C3F645212132D71E00B7E664 /* Build configuration list for PBXNativeTarget "HPStore" */;
 			buildPhases = (
+				04DA17481F89DECA6C7C9BF5 /* [CP] Check Pods Manifest.lock */,
 				C3F645172132D71E00B7E664 /* Headers */,
 				C3F645182132D71E00B7E664 /* Sources */,
 				C3F645192132D71E00B7E664 /* Frameworks */,
@@ -141,11 +161,33 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		04DA17481F89DECA6C7C9BF5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HPStore-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		C3F645182132D71E00B7E664 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3FAC5DD213412B600296441 /* HPProductResponse.swift in Sources */,
 				C3F645242132D72700B7E664 /* HPStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,6 +312,7 @@
 		};
 		C3F645222132D71E00B7E664 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D07BE99F8607CCBF53536BBD /* Pods-HPStore.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -299,6 +342,7 @@
 		};
 		C3F645232132D71E00B7E664 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E98CC06E855D332CEF1DDE0E /* Pods-HPStore.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

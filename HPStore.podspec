@@ -14,5 +14,6 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/Fri3ndlyGerman/HPStore.git", :tag => "#{s.version}" }
   s.source_files  = "HPStore", "HPStore/**/*.{swift}"
   s.requires_arc = true
+  s.dependency 'SwiftyReceiptValidator'
 
 end

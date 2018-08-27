@@ -7,6 +7,7 @@
 //
 
 import StoreKit
+import SwiftyReceiptValidator
 
 public class HPStore: NSObject, SKPaymentTransactionObserver, SKProductsRequestDelegate {
     
@@ -15,13 +16,15 @@ public class HPStore: NSObject, SKPaymentTransactionObserver, SKProductsRequestD
     }
     public var products = [String:SKProduct]()
     public var delegate: HPStoreDelegate?
+    public var sharedSecret: String?
+    public var validator = SwiftyReceiptValidator()
     
-    
-    public init(with identifiers: [String]) {
+    public init(with identifiers: [String], secret sharedSecret: String? = nil) {
         super.init()
         
         SKPaymentQueue.default().add(self)
         self.identifiers = identifiers
+        self.sharedSecret = sharedSecret
     }
     
     
@@ -31,7 +34,6 @@ public class HPStore: NSObject, SKPaymentTransactionObserver, SKProductsRequestD
     
     
     public func restoreTransactions() {
-        SKPaymentQueue.default().add(self)
         SKPaymentQueue.default().restoreCompletedTransactions()
     }
     
@@ -41,7 +43,7 @@ public class HPStore: NSObject, SKPaymentTransactionObserver, SKProductsRequestD
             let payment = SKPayment(product: products[id]! as SKProduct)
             SKPaymentQueue.default().add(payment)
         } else {
-            print("HPStore: No product found or device can't make in-app purchases")
+            print("HPStore: No products found or device can't make in-app purchases")
         }
     }
     
@@ -60,8 +62,9 @@ public class HPStore: NSObject, SKPaymentTransactionObserver, SKProductsRequestD
     
     
     public func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        self.delegate?.productsRequest(request, didReceive: response)
-        print("HPStore: Did receive Response from Apple")
+        let response = HPProductResponse(response)
+        
+        self.delegate?.productsRequest(didReceive: response)
         if response.products.count != 0 {
             self.products.removeAll()
             for product in response.products {
@@ -74,29 +77,74 @@ public class HPStore: NSObject, SKPaymentTransactionObserver, SKProductsRequestD
     }
     
     
+    public func request(_ request: SKRequest, didFailWithError error: Error) {
+        self.delegate?.productsRequest(didFailWithError: error)
+    }
+    
+    
     public func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        print("HPStore: Received Payment Transaction Response from Apple")
-        self.delegate?.paymentQueue(queue, updatedTransactions: transactions)
+        for transaction in transactions {
+            switch transaction.transactionState {
+            case .purchased:
+                let productIdentifier = transaction.payment.productIdentifier
+                
+                self.validator.validate(productIdentifier, sharedSecret: sharedSecret) { result in
+                    switch result {
+                    case .success(let data):
+                        print("HPStore: Receipt validation was successfull with data \(data)")
+                        self.delegate?.transactionFinished(for: productIdentifier)
+                        
+                    case .failure(let code, let error):
+                        print("HPStore: Receipt validation failed with code: \(code), error: \(error.localizedDescription)")
+                        self.delegate?.transactionFailed(for: productIdentifier, with: error)
+                    }
+                    
+                    queue.finishTransaction(transaction) // make sure this is in the validation closure
+                }
+            case .restored:
+                if let productIdentifier = transaction.original?.payment.productIdentifier {
+                    self.validator.validate(productIdentifier, sharedSecret: sharedSecret) { result in
+                        switch result {
+                        case .success(let data):
+                            print("HPStore: Receipt validation was successfull with data \(data)")
+                            self.delegate?.transactionRestored(for: productIdentifier)
+                            
+                        case .failure(let code, let error):
+                            print("HPStore: Receipt validation failed with code: \(code), error: \(error.localizedDescription)")
+                            self.delegate?.transactionFailed(for: productIdentifier, with: error)
+                        }
+                        
+                        queue.finishTransaction(transaction) // make sure this is in the validation closure
+                    }
+                }
+            case .failed:
+                let productIdentifier = transaction.payment.productIdentifier
+                self.delegate?.transactionFailed(for: productIdentifier, with: transaction.error)
+            default:
+                break
+            }
+        }
     }
     
     
     public func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
-        print("HPStore: Payment Qeue finished restoring transactions")
-        self.delegate?.paymentQueueRestoreCompletedTransactionsFinished(queue)
+        self.delegate?.purchaseRestoringFinished()
     }
     
     
     public func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
-        print("HPStore: Payment Qeue failed to restore transactions")
-        self.delegate?.paymentQueue(queue, restoreCompletedTransactionsFailedWithError: error)
+        self.delegate?.purchaseRestoringFailed(with: error)
     }
 }
 
 
 public protocol HPStoreDelegate: class {
-    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse)
-    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction])
-    func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue)
-    func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error)
+    func transactionFinished(for identifier: String)
+    func transactionFailed(for identifier: String, with error: Error?)
+    func transactionRestored(for identifier: String)
+    func purchaseRestoringFinished()
+    func purchaseRestoringFailed(with error: Error)
+    func productsRequest(didReceive response: HPProductResponse)
+    func productsRequest(didFailWithError error: Error)
 }
 
